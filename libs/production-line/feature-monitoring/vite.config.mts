@@ -4,7 +4,7 @@ import angular from '@analogjs/vite-plugin-angular';
 
 export default defineConfig(() => ({
   root: import.meta.dirname,
-  cacheDir: '../../../node_modules/.vite/libs/production-line/feature',
+  cacheDir: '../../../node_modules/.vite/libs/production-line/feature-monitoring',
   resolve: {
     tsconfigPaths: true,
   },
@@ -14,7 +14,7 @@ export default defineConfig(() => ({
   //  plugins: [],
   // },
   test: {
-    name: 'production-line-feature',
+    name: 'production-line-feature-monitoring',
     watch: false,
     globals: true,
     environment: 'jsdom',
@@ -22,7 +22,7 @@ export default defineConfig(() => ({
     setupFiles: ['src/test-setup.ts'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../../coverage/libs/production-line/feature',
+      reportsDirectory: '../../../coverage/libs/production-line/feature-monitoring',
       provider: 'v8',
     },
   },

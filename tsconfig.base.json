@@ -21,9 +21,11 @@
       "@bagging-line/production-line/data-access": [
         "./libs/production-line/data-access/src/index.ts"
       ],
-      "@bagging-line/production-line/feature": ["./libs/production-line/feature/src/index.ts"],
       "@bagging-line/production-line/util": ["./libs/production-line/util/src/index.ts"],
-      "@bagging-line/production-line/ui": ["./libs/production-line/ui/src/index.ts"]
+      "@bagging-line/production-line/ui": ["./libs/production-line/ui/src/index.ts"],
+      "@bagging-line/production-line/feature-monitoring": [
+        "./libs/production-line/feature-monitoring/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

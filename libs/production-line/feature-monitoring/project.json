@@ -1,7 +1,7 @@
 {
-  "name": "production-line-feature",
+  "name": "production-line-feature-monitoring",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/production-line/feature/src",
+  "sourceRoot": "libs/production-line/feature-monitoring/src",
   "prefix": "pl",
   "projectType": "library",
   "tags": ["type:feature", "scope:production-line"],

@@ -4,7 +4,9 @@ export const appRoutes: Route[] = [
   {
     path: '',
     loadChildren: () =>
-      import('@bagging-line/production-line/feature').then((m) => m.productionLineRoutes),
+      import('@bagging-line/production-line/feature-monitoring').then(
+        (m) => m.productionLineRoutes,
+      ),
   },
   { path: '**', redirectTo: '' },
 ];
