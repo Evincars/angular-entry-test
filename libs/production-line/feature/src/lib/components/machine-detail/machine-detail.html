@@ -1,0 +1,39 @@
+<ui-card [heading]="machine().name" [subheading]="machine().typeLabel">
+  <ui-icon-button
+    uiCardHeaderEnd
+    icon="close"
+    label="Close detail"
+    (pressed)="closed.emit()"
+  />
+
+  <dl class="machine-detail__properties">
+    <dt>State</dt>
+    <dd class="machine-detail__state" [attr.data-tone]="machine().status.tone">
+      <ui-icon-label [icon]="machine().status.icon"
+        >{{ machine().status.label }}</ui-icon-label
+      >
+    </dd>
+
+    <dt>In state since</dt>
+    <dd>{{ since() }}</dd>
+
+    @if (machine().description) {
+    <dt>Description</dt>
+    <dd>{{ machine().description }}</dd>
+    }
+  </dl>
+
+  <div uiCardActions class="machine-detail__actions">
+    <span class="machine-detail__actions-label">Simulate state</span>
+    @for (option of stateOptions; track option.state) {
+    <ui-button
+      appearance="outlined"
+      [icon]="option.status.icon"
+      [disabled]="option.state === machine().state"
+      (pressed)="stateChange.emit(option.state)"
+    >
+      {{ option.status.label }}
+    </ui-button>
+    }
+  </div>
+</ui-card>

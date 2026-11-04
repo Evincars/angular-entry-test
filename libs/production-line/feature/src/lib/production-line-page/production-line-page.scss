@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 24px 16px 48px;
+}
+
+.page__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  max-width: 880px;
+}
+
+.page__overview {
+  padding-block: 64px;
+}
+
+.page__error {
+  width: 100%;
+  max-width: 560px;
+}

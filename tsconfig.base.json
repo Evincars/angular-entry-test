@@ -22,6 +22,9 @@
       ],
       "@bagging-line/production-line/data-access": [
         "./libs/production-line/data-access/src/index.ts"
+      ],
+      "@bagging-line/production-line/feature": [
+        "./libs/production-line/feature/src/index.ts"
       ]
     }
   },
