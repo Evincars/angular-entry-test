@@ -2,7 +2,17 @@
   "name": "@angular-entry-test/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start": "nx serve production-line",
+    "build": "nx build production-line",
+    "test": "nx run-many -t test",
+    "lint": "nx run-many -t lint",
+    "typecheck": "nx run-many -t typecheck",
+    "check": "nx run-many -t lint typecheck test build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "graph": "nx graph"
+  },
   "private": true,
   "dependencies": {
     "@angular/cdk": "~22.2.0",

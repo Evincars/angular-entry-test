@@ -17,15 +17,11 @@
     "paths": {
       "@bagging-line/shared/ui": ["./libs/shared/ui/src/index.ts"],
       "@bagging-line/shared/util": ["./libs/shared/util/src/index.ts"],
-      "@bagging-line/shared/data-access": [
-        "./libs/shared/data-access/src/index.ts"
-      ],
+      "@bagging-line/shared/data-access": ["./libs/shared/data-access/src/index.ts"],
       "@bagging-line/production-line/data-access": [
         "./libs/production-line/data-access/src/index.ts"
       ],
-      "@bagging-line/production-line/feature": [
-        "./libs/production-line/feature/src/index.ts"
-      ]
+      "@bagging-line/production-line/feature": ["./libs/production-line/feature/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
