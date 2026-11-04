@@ -1,4 +1,4 @@
-import type { Machine } from '@bagging-line/production-line/data-access';
+import type { Machine } from '@bagging-line/production-line/util';
 import { machineStatus, toMachineView, toNavItem, toStateCounts } from './machine-view';
 
 describe('machine view mappers', () => {

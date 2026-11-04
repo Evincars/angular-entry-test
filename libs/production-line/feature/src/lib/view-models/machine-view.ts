@@ -3,7 +3,7 @@ import {
   type Machine,
   type MachineState,
   type MachineType,
-} from '@bagging-line/production-line/data-access';
+} from '@bagging-line/production-line/util';
 import type { MaterialSymbol, UiLink, UiNavItem, UiStatus } from '@bagging-line/shared/ui';
 import { createLookup } from '@bagging-line/shared/util';
 

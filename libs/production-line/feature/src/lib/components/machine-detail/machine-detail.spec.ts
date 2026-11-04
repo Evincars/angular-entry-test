@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import type { MachineState } from '@bagging-line/production-line/data-access';
+import type { MachineState } from '@bagging-line/production-line/util';
 import { toMachineView } from '../../view-models/machine-view';
 import { MachineDetail } from './machine-detail';
 

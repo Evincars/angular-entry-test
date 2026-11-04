@@ -11,9 +11,14 @@ import {
   withProps,
   withState,
 } from '@ngrx/signals';
-import { MACHINE_STATE_SEVERITY, type Machine, type MachineState } from '../models/machine.model';
-import { parseMachines } from '../models/machine.parser';
-import { simulateStep } from '../simulation/machine-simulation';
+import {
+  countMachineStates,
+  parseMachines,
+  simulateStep,
+  worstMachineState,
+  type Machine,
+  type MachineState,
+} from '@bagging-line/production-line/util';
 import { PRODUCTION_LINE_CONFIG } from './production-line.config';
 
 interface MachinesUiState {
@@ -25,12 +30,6 @@ const initialState = {
   selectedMachineId: null,
   simulationEnabled: true,
 } satisfies MachinesUiState;
-
-const emptyStateCounts = (): Record<MachineState, number> => ({
-  running: 0,
-  warning: 0,
-  alarm: 0,
-});
 
 /**
  * Local state of the production line feature: machines loaded from JSON,
@@ -64,20 +63,9 @@ export const MachinesStore = signalStore(
     selectedMachine: computed(
       () => machines().find(({ id }) => id === selectedMachineId()) ?? null,
     ),
-    stateCounts: computed(() =>
-      machines().reduce((counts, { state }) => {
-        counts[state] += 1;
-        return counts;
-      }, emptyStateCounts()),
-    ),
+    stateCounts: computed(() => countMachineStates(machines())),
     /** Most severe state of all machines – the state of the whole line. */
-    lineState: computed(() =>
-      machines().reduce<MachineState>(
-        (worst, { state }) =>
-          MACHINE_STATE_SEVERITY[state] > MACHINE_STATE_SEVERITY[worst] ? state : worst,
-        'running',
-      ),
-    ),
+    lineState: computed(() => worstMachineState(machines())),
   })),
   withMethods((store) => {
     const setMachineState = (id: string, state: MachineState): void => {
