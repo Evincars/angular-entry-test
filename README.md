@@ -1,102 +1,139 @@
-# AngularEntryTest
+# Bühler bagging line – machine status
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+Angular application showing the state of every machine (section) of a bagging
+production line – **Scale → Attacher → Packer → Closer** – in two places:
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+- **Navigation** – status tabs under the header
+- **Overview** – the line as a flow of status tiles
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+Every state has its own icon and color (Material Symbols):
 
-## Run tasks
+| State   | Icon                      | Color  |
+| ------- | ------------------------- | ------ |
+| Running | `settings_backup_restore` | green  |
+| Warning | `warning`                 | orange |
+| Alarm   | `error`                   | red    |
 
-To run the dev server for your app, use:
+Selecting a machine (tab or tile) opens its detail. A **live simulation**
+randomly changes machine states every few seconds, and states can be switched
+manually in the detail card, so the reactive state flow can be seen in action.
 
-```sh
-npx nx serve production-line
+![Screenshot](docs/screenshot.png)
+
+**Live demo:** https://evincars.github.io/angular-entry-test/
+
+## Tech stack
+
+- **Angular 22** – standalone components, **zoneless** change detection,
+  signals everywhere (`input()`, `output()`, `model()`, `computed()`),
+  new control flow. `OnPush` is the default change detection strategy since
+  Angular 22, so it is not repeated in every component.
+- **NgRx Signals** – `signalStore` for global and local state
+- **Angular Material 3** + **Material Symbols** (`material-symbols` package)
+- **Nx 24** monorepo with enforced module boundaries
+- **Vitest** unit tests, ESLint, Prettier
+
+## Workspace structure
+
+```
+apps/
+  production-line/                  app shell: header, routing, theme       type:app
+libs/
+  shared/
+    ui/                             Material wrappers (ui-*)                type:ui
+    util/                           pure mappers / formatters               type:util
+    data-access/                    global AppStore (clock, user)           type:data-access
+  production-line/
+    feature/                        navigation, overview, machine detail    type:feature
+    data-access/                    machine model, JSON, MachinesStore      type:data-access
 ```
 
-To create a production bundle:
-
-```sh
-npx nx build production-line
+```mermaid
+graph TD
+  app[app: production-line] --> feature[production-line/feature]
+  app --> sharedUi[shared/ui]
+  app --> sharedUtil[shared/util]
+  app --> sharedDa[shared/data-access]
+  feature --> lineDa[production-line/data-access]
+  feature --> sharedDa
+  feature --> sharedUi
+  feature --> sharedUtil
+  lineDa --> sharedDa
 ```
 
-To see all available targets to run for a project, run:
+### Module boundaries
+
+Enforced by `@nx/enforce-module-boundaries` in [`eslint.config.mjs`](eslint.config.mjs):
+
+| Library type       | May import                  |
+| ------------------ | --------------------------- |
+| `type:feature`     | `data-access`, `ui`, `util` |
+| `type:data-access` | `data-access`               |
+| `type:ui`          | `ui`                        |
+| `type:util`        | `util`                      |
+
+Plus scopes: `scope:production-line` may use `scope:shared`, but not the other
+way round. Angular Material may only be imported inside `shared/ui` – features
+use the `ui-*` wrappers.
+
+## State management
+
+| Store           | Scope                                 | Holds                                                                                                                           |
+| --------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `AppStore`      | global (`providedIn: 'root'`)         | ticking clock, signed-in user                                                                                                   |
+| `MachinesStore` | local (provided on the feature route) | machines loaded via `httpResource`, writable linked copy (`withLinkedState`), selection, counts, overall line state, simulation |
+
+Components are presentational: they receive data through inputs and report
+user actions through outputs. The only container, `ProductionLinePage`, maps
+the domain model to UI view models (`machine-view.ts`, using `createLookup`
+from `shared/util`) and delegates every state change to the stores. The
+selected machine comes from the `:machineId` route parameter (component input
+binding) and is passed to the store as a signal (`signalMethod`).
+
+Machines are stored in
+[`machines.json`](libs/production-line/data-access/src/assets/machines.json)
+and validated at runtime with type guards.
+
+## Typing rules
+
+- strict TypeScript and strict templates
+- **no type assertions** (`as Foo`, `<Foo>x`) – values are narrowed with type
+  guards, object literals are checked with `satisfies`
+  (`@typescript-eslint/consistent-type-assertions: never`)
+- no `any`, no non-null assertions `!`
+- exhaustive lookup tables (`Record<Union, Value>`) – adding a new machine
+  state or type is a compile error until it has an icon, color and label
+
+## Getting started
+
+Requires Node.js `^22.22.3 || ^24.15.0 || >=26`.
 
 ```sh
-npx nx show project production-line
+npm install
+npm start            # http://localhost:4200
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+| Script              | Description                                    |
+| ------------------- | ---------------------------------------------- |
+| `npm start`         | dev server                                     |
+| `npm run build`     | production build → `dist/apps/production-line` |
+| `npm test`          | unit tests of all projects                     |
+| `npm run lint`      | ESLint incl. module boundaries                 |
+| `npm run typecheck` | `tsc --noEmit` of all projects                 |
+| `npm run check`     | lint + typecheck + test + build                |
+| `npm run graph`     | Nx project graph                               |
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## Deployment
 
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) deploys to
+GitHub Pages whenever a version tag is pushed:
 
 ```sh
-npx nx g @nx/angular:app demo
+git tag v1.0.0
+git push origin v1.0.0
 ```
 
-To generate a new library, use:
-
-```sh
-npx nx g @nx/angular:lib mylib
-```
-
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
-
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Set up CI!
-
-### Step 1
-
-To connect to Nx Cloud, run the following command:
-
-```sh
-npx nx connect
-```
-
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
-
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-### Step 2
-
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
-```
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+The workflow lints, typechecks and tests the workspace, builds the app with
+the repository name as base href and adds a `404.html` fallback so deep links
+(e.g. `/machines/attacher`) work. GitHub Pages has to be set to
+**Settings → Pages → Source: GitHub Actions** once.
