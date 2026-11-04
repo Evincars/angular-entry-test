@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use 'tokens' as ui;
 
 html {
   color-scheme: light;
@@ -13,6 +14,7 @@ html {
       density: 0,
     )
   );
+  @include ui.tokens();
 }
 
 html,

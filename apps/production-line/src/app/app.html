@@ -1,2 +1,18 @@
-<app-nx-welcome></app-nx-welcome>
-<router-outlet></router-outlet>
+<ui-toolbar>
+  <img
+    uiToolbarBrand
+    class="app__logo"
+    src="buhler-logo.svg"
+    alt="Bühler"
+    width="140"
+    height="27"
+  />
+  <ui-icon-label icon="schedule">
+    <time [attr.datetime]="clockIso()">{{ clock() }}</time>
+  </ui-icon-label>
+  <ui-icon-label icon="account_circle">{{ appStore.userName() }}</ui-icon-label>
+</ui-toolbar>
+
+<main class="app__content">
+  <router-outlet />
+</main>

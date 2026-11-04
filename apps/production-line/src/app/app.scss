@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.app__logo {
+  display: block;
+  height: 27px;
+  width: auto;
+}
+
+.app__content {
+  flex: 1;
+}

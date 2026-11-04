@@ -4,13 +4,11 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/production-line/src",
-  "tags": [],
+  "tags": ["type:app", "scope:production-line"],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/production-line",
@@ -21,12 +19,20 @@
           {
             "glob": "**/*",
             "input": "apps/production-line/public"
+          },
+          {
+            "glob": "machines.json",
+            "input": "libs/production-line/data-access/src/assets",
+            "output": "data"
           }
         ],
         "styles": [
           "node_modules/material-symbols/outlined.css",
           "apps/production-line/src/styles.scss"
-        ]
+        ],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/shared/ui/src/styles"]
+        }
       },
       "configurations": {
         "production": {
@@ -72,9 +78,7 @@
       "readyWhen": {
         "signal": true
       },
-      "dependsOn": [
-        "build"
-      ],
+      "dependsOn": ["build"],
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "production-line:build",
