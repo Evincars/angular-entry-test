@@ -3,15 +3,15 @@ import { ActivatedRoute, Router, type UrlTree } from '@angular/router';
 import { MachinesStore } from '@bagging-line/production-line/data-access';
 import { AppStore } from '@bagging-line/shared/data-access';
 import { UiButton, UiCard, UiNavTabs, UiProgressBar, UiSlideToggle } from '@bagging-line/shared/ui';
-import { LineOverview } from '../components/line-overview/line-overview';
-import { LineSummary } from '../components/line-summary/line-summary';
-import { MachineDetail } from '../components/machine-detail/machine-detail';
 import {
+  LineOverview,
+  LineSummary,
+  MachineDetail,
   machineStatus,
   toMachineView,
   toNavItem,
   toStateCounts,
-} from '../view-models/machine-view';
+} from '@bagging-line/production-line/ui';
 
 /**
  * Container of the production line feature. Connects the stores to the

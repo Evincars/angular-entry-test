@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { UiIconLabel, type UiStatus } from '@bagging-line/shared/ui';
-import type { MachineStateCount } from '../../view-models/machine-view';
+import type { MachineStateCount } from '../view-models/machine-view';
 
 /** Overall line state followed by the number of machines in every state. */
 @Component({
