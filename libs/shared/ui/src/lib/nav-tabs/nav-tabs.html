@@ -1,0 +1,29 @@
+<nav
+  mat-tab-nav-bar
+  class="ui-nav-tabs"
+  [tabPanel]="panel"
+  [attr.aria-label]="ariaLabel()"
+>
+  @for (item of items(); track item.id) {
+  <a
+    mat-tab-link
+    class="ui-nav-tabs__link"
+    [attr.data-tone]="item.status.tone"
+    [routerLink]="item.link"
+    routerLinkActive
+    #rla="routerLinkActive"
+    [active]="rla.isActive"
+  >
+    <span class="ui-nav-tabs__label">{{ item.label }}</span>
+    <ui-icon
+      class="ui-nav-tabs__status"
+      size="sm"
+      [name]="item.status.icon"
+      [label]="item.status.label"
+    />
+  </a>
+  }
+</nav>
+<mat-tab-nav-panel #panel>
+  <ng-content />
+</mat-tab-nav-panel>

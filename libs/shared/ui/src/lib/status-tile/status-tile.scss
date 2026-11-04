@@ -1,0 +1,70 @@
+:host {
+  --_tile-bg: var(--ui-surface-tile);
+  --_tile-fg: var(--mat-sys-on-surface);
+  --_status-fg: var(--ui-tone-success);
+
+  display: block;
+  flex: none;
+}
+
+:host([data-tone='neutral']) {
+  --_status-fg: var(--ui-tone-neutral);
+}
+
+:host([data-tone='warning']) {
+  --_tile-bg: var(--ui-tone-warning);
+  --_tile-fg: var(--ui-on-tone);
+  --_status-fg: var(--ui-on-tone);
+}
+
+:host([data-tone='danger']) {
+  --_tile-bg: var(--ui-tone-danger);
+  --_tile-fg: var(--ui-on-tone);
+  --_status-fg: var(--ui-on-tone);
+}
+
+.ui-status-tile__link {
+  display: block;
+  border-radius: 4px;
+  color: inherit;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: 3px solid var(--ui-brand);
+    outline-offset: 3px;
+  }
+}
+
+.ui-status-tile__card {
+  --mat-card-filled-container-color: var(--_tile-bg);
+  --mat-card-filled-container-shape: 4px;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 128px;
+  height: 112px;
+  color: var(--_tile-fg);
+  cursor: pointer;
+  transition: box-shadow 150ms ease;
+
+  :host(.ui-status-tile--selected) & {
+    box-shadow:
+      0 0 0 3px var(--mat-sys-surface),
+      0 0 0 6px var(--ui-brand);
+  }
+}
+
+.ui-status-tile__status {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  color: var(--_status-fg);
+}
+
+.ui-status-tile__label {
+  font: var(--mat-sys-title-small);
+}

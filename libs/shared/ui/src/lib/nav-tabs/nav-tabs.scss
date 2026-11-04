@@ -1,0 +1,59 @@
+:host {
+  display: block;
+}
+
+.ui-nav-tabs {
+  --mat-tab-background-color: var(--ui-surface-tile);
+  --mat-tab-divider-height: 0;
+  --mat-tab-container-height: 56px;
+  --mat-tab-active-indicator-color: var(--ui-brand);
+  --mat-tab-active-focus-indicator-color: var(--ui-brand);
+  --mat-tab-active-hover-indicator-color: var(--ui-brand);
+  --mat-tab-active-indicator-height: 4px;
+
+  background: var(--ui-surface-tile);
+}
+
+.ui-nav-tabs__link {
+  --_tab-fg: var(--mat-sys-on-surface);
+  --_status-fg: var(--ui-tone-success);
+
+  --mat-tab-active-label-text-color: var(--_tab-fg);
+  --mat-tab-active-focus-label-text-color: var(--_tab-fg);
+  --mat-tab-active-hover-label-text-color: var(--_tab-fg);
+  --mat-tab-inactive-label-text-color: var(--_tab-fg);
+  --mat-tab-inactive-focus-label-text-color: var(--_tab-fg);
+  --mat-tab-inactive-hover-label-text-color: var(--_tab-fg);
+
+  min-width: 140px;
+  background: var(--_tab-bg, transparent);
+
+  &[data-tone='neutral'] {
+    --_status-fg: var(--ui-tone-neutral);
+  }
+
+  &[data-tone='warning'] {
+    --_tab-bg: var(--ui-tone-warning);
+    --_tab-fg: var(--ui-on-tone);
+    --_status-fg: var(--ui-on-tone);
+    --mat-tab-active-indicator-color: var(--ui-on-tone);
+  }
+
+  &[data-tone='danger'] {
+    --_tab-bg: var(--ui-tone-danger);
+    --_tab-fg: var(--ui-on-tone);
+    --_status-fg: var(--ui-on-tone);
+    --mat-tab-active-indicator-color: var(--ui-on-tone);
+  }
+}
+
+.ui-nav-tabs__label {
+  font-weight: 500;
+}
+
+.ui-nav-tabs__status {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  color: var(--_status-fg);
+}

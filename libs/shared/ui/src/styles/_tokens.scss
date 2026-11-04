@@ -1,0 +1,19 @@
+// Design tokens shared by all `ui-*` components. Include once at the root:
+//
+//   @use 'ui-tokens' as ui;
+//   html { @include ui.tokens(); }
+
+@mixin tokens() {
+  --ui-brand: #00a89c;
+  --ui-surface-header: #e6e6e6;
+  --ui-surface-tile: #d9d9d9;
+  --ui-on-tone: #ffffff;
+
+  --ui-tone-neutral: #757575;
+  --ui-tone-success: #2e9e3a;
+  --ui-tone-warning: #ff9800;
+  --ui-tone-danger: #ff3b3b;
+
+  --ui-flow-active: #2e9e3a;
+  --ui-flow-idle: #bdbdbd;
+}
