@@ -16,7 +16,10 @@
     "strict": false,
     "paths": {
       "@bagging-line/shared/ui": ["./libs/shared/ui/src/index.ts"],
-      "@bagging-line/shared/util": ["./libs/shared/util/src/index.ts"]
+      "@bagging-line/shared/util": ["./libs/shared/util/src/index.ts"],
+      "@bagging-line/shared/data-access": [
+        "./libs/shared/data-access/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
