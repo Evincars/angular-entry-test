@@ -33,48 +33,65 @@ manually in the detail card, so the reactive state flow can be seen in action.
 - **Nx 24** monorepo with enforced module boundaries
 - **Vitest** unit tests, ESLint, Prettier
 
-## Workspace structure
+## Architecture
+
+The workspace follows the classical Nx domain-driven layout: code is sliced
+**vertically by domain** (`scope:*`) and every domain is split
+**horizontally into layers** (`type:*`). A new domain (e.g. `maintenance`) is a
+new vertical slice with the same four library types; a domain grows by adding
+more `feature-*` libraries next to its `data-access`, `ui` and `util`.
 
 ```
 apps/
-  production-line/                  app shell: header, routing, theme       type:app
+  production-line/                   app shell: header, routing, theme             type:app
 libs/
-  shared/
-    ui/                             Material wrappers (ui-*)                type:ui
-    util/                           pure mappers / formatters               type:util
-    data-access/                    global AppStore (clock, user)           type:data-access
-  production-line/
-    feature/                        navigation, overview, machine detail    type:feature
-    data-access/                    machine model, JSON, MachinesStore      type:data-access
+  production-line/                   domain: the bagging line                       scope:production-line
+    feature-monitoring/              routes + container page (navigation/overview)  type:feature
+    data-access/                     MachinesStore, machines.json                    type:data-access
+    ui/                              line overview, summary, machine detail          type:ui
+    util/                            machine model, parser, simulation, aggregations type:util
+  shared/                            shared kernel                                   scope:shared
+    data-access/                     global AppStore (clock, user)                   type:data-access
+    ui/                              Material wrappers (ui-*)                        type:ui
+    util/                            createLookup, date/time formatters              type:util
 ```
 
 ```mermaid
 graph TD
-  app[app: production-line] --> feature[production-line/feature]
-  app --> sharedUi[shared/ui]
-  app --> sharedUtil[shared/util]
-  app --> sharedDa[shared/data-access]
+  app[app: production-line] --> feature[production-line/feature-monitoring]
   feature --> lineDa[production-line/data-access]
-  feature --> sharedDa
-  feature --> sharedUi
-  feature --> sharedUtil
-  lineDa --> sharedDa
+  feature --> lineUi[production-line/ui]
+  feature --> sharedDa[shared/data-access]
+  feature --> sharedUi[shared/ui]
+  lineDa --> lineUtil[production-line/util]
+  lineUi --> lineUtil
+  lineUi --> sharedUi
+  lineUi --> sharedUtil[shared/util]
 ```
 
 ### Module boundaries
 
-Enforced by `@nx/enforce-module-boundaries` in [`eslint.config.mjs`](eslint.config.mjs):
+Enforced by `@nx/enforce-module-boundaries` in [`eslint.config.mjs`](eslint.config.mjs).
 
-| Library type       | May import                  |
-| ------------------ | --------------------------- |
-| `type:feature`     | `data-access`, `ui`, `util` |
-| `type:data-access` | `data-access`               |
-| `type:ui`          | `ui`                        |
-| `type:util`        | `util`                      |
+Layers – each layer may only use the layers below it:
 
-Plus scopes: `scope:production-line` may use `scope:shared`, but not the other
-way round. Angular Material may only be imported inside `shared/ui` – features
-use the `ui-*` wrappers.
+| Library type       | May import                             |
+| ------------------ | -------------------------------------- |
+| `type:app`         | `feature`, `data-access`, `ui`, `util` |
+| `type:feature`     | `feature`, `data-access`, `ui`, `util` |
+| `type:data-access` | `data-access`, `util`                  |
+| `type:ui`          | `ui`, `util`                           |
+| `type:util`        | `util`                                 |
+
+Domains – a domain may only use itself and the shared kernel:
+
+| Scope                   | May import                              |
+| ----------------------- | --------------------------------------- |
+| `scope:production-line` | `scope:production-line`, `scope:shared` |
+| `scope:shared`          | `scope:shared`                          |
+
+Angular Material may only be imported inside `shared/ui`; everything else uses
+the `ui-*` wrappers.
 
 ## State management
 
@@ -83,12 +100,16 @@ use the `ui-*` wrappers.
 | `AppStore`      | global (`providedIn: 'root'`)         | ticking clock, signed-in user                                                                                                   |
 | `MachinesStore` | local (provided on the feature route) | machines loaded via `httpResource`, writable linked copy (`withLinkedState`), selection, counts, overall line state, simulation |
 
-Components are presentational: they receive data through inputs and report
-user actions through outputs. The only container, `ProductionLinePage`, maps
-the domain model to UI view models (`machine-view.ts`, using `createLookup`
-from `shared/util`) and delegates every state change to the stores. The
-selected machine comes from the `:machineId` route parameter (component input
-binding) and is passed to the store as a signal (`signalMethod`).
+The stores only hold state and delegate the domain logic to pure functions in
+`production-line/util` (parsing, simulation step, state counts, overall line
+state). Components in the `ui` libraries are presentational: they receive data
+through inputs and report user actions through outputs. The only container,
+`ProductionLinePage` in the feature, connects the stores to them, maps the
+domain model to view models (`machine-view.ts` in `production-line/ui`, built on
+`createLookup` from `shared/util`) and delegates every state change to the
+stores. The selected machine comes from the `:machineId` route parameter
+(component input binding) and is passed to the store as a signal
+(`signalMethod`).
 
 Machines are stored in
 [`machines.json`](libs/production-line/data-access/src/assets/machines.json)
