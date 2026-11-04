@@ -27,6 +27,13 @@ export default [
     },
   },
   {
+    // This library is the only place allowed to use Angular Material directly.
+    files: ['**/*.ts'],
+    rules: {
+      'no-restricted-imports': 'off',
+    },
+  },
+  {
     files: ['**/*.html'],
     // Override or add rules here
     rules: {},
