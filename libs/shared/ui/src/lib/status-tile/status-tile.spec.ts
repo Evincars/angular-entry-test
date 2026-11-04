@@ -28,17 +28,13 @@ describe('UiStatusTile', () => {
 
     expect(host.textContent).toContain('Attacher');
     expect(host.getAttribute('data-tone')).toBe('danger');
-    expect(host.querySelector('a')?.getAttribute('href')).toBe(
-      '/machines/attacher',
-    );
+    expect(host.querySelector('a')?.getAttribute('href')).toBe('/machines/attacher');
   });
 
   it('exposes the status icon with an accessible label', async () => {
     const host = await render();
 
-    expect(
-      host.querySelector('[aria-label="Alarm"]')?.textContent?.trim(),
-    ).toBe('error');
+    expect(host.querySelector('[aria-label="Alarm"]')?.textContent?.trim()).toBe('error');
   });
 
   it('marks the selected tile', async () => {

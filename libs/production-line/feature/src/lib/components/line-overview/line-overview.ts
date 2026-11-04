@@ -1,9 +1,5 @@
 import { Component, input } from '@angular/core';
-import {
-  UiFlowConnector,
-  UiPipeline,
-  UiStatusTile,
-} from '@bagging-line/shared/ui';
+import { UiFlowConnector, UiPipeline, UiStatusTile } from '@bagging-line/shared/ui';
 import type { MachineView } from '../../view-models/machine-view';
 
 /** The machines of the line as a flow of status tiles. */

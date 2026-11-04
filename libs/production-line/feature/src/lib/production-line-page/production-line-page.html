@@ -1,6 +1,6 @@
 <ui-nav-tabs ariaLabel="Machines of the line" [items]="navItems()">
   @if (store.isLoading()) {
-  <ui-progress-bar label="Loading machines" />
+    <ui-progress-bar label="Loading machines" />
   }
 
   <section class="page">
@@ -15,28 +15,23 @@
     </div>
 
     @if (store.loadError(); as error) {
-    <ui-card
-      class="page__error"
-      heading="Machines could not be loaded"
-      [subheading]="error"
-    >
-      <ui-button uiCardActions icon="refresh" (pressed)="store.reload()"
-        >Retry</ui-button
-      >
-    </ui-card>
+      <ui-card class="page__error" heading="Machines could not be loaded" [subheading]="error">
+        <ui-button uiCardActions icon="refresh" (pressed)="store.reload()">Retry</ui-button>
+      </ui-card>
     } @else {
-    <pl-line-overview
-      class="page__overview"
-      [machines]="machines()"
-      [selectedId]="store.selectedMachineId()"
-    />
-    } @if (selectedMachine(); as machine) {
-    <pl-machine-detail
-      [machine]="machine"
-      [now]="appStore.now()"
-      (stateChange)="store.setMachineState(machine.id, $event)"
-      (closed)="closeDetail()"
-    />
+      <pl-line-overview
+        class="page__overview"
+        [machines]="machines()"
+        [selectedId]="store.selectedMachineId()"
+      />
+    }
+    @if (selectedMachine(); as machine) {
+      <pl-machine-detail
+        [machine]="machine"
+        [now]="appStore.now()"
+        (stateChange)="store.setMachineState(machine.id, $event)"
+        (closed)="closeDetail()"
+      />
     }
   </section>
 </ui-nav-tabs>

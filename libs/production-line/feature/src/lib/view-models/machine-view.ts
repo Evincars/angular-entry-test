@@ -4,12 +4,7 @@ import {
   type MachineState,
   type MachineType,
 } from '@bagging-line/production-line/data-access';
-import type {
-  MaterialSymbol,
-  UiLink,
-  UiNavItem,
-  UiStatus,
-} from '@bagging-line/shared/ui';
+import type { MaterialSymbol, UiLink, UiNavItem, UiStatus } from '@bagging-line/shared/ui';
 import { createLookup } from '@bagging-line/shared/util';
 
 /** Everything the presentational components need to render one machine. */
@@ -61,11 +56,10 @@ const machineTypeLabel = createLookup<MachineType, string>({
   'bag-closer': 'Bag closer',
 });
 
-export const MACHINE_STATE_OPTIONS: readonly MachineStateOption[] =
-  MACHINE_STATES.map((state) => ({
-    state,
-    status: machineStatus(state),
-  }));
+export const MACHINE_STATE_OPTIONS: readonly MachineStateOption[] = MACHINE_STATES.map((state) => ({
+  state,
+  status: machineStatus(state),
+}));
 
 export function toMachineView(machine: Machine, link: UiLink): MachineView {
   return {
@@ -86,9 +80,7 @@ export function toNavItem({ id, name, link, status }: MachineView): UiNavItem {
   return { id, label: name, link, status };
 }
 
-export function toStateCounts(
-  counts: Readonly<Record<MachineState, number>>,
-): MachineStateCount[] {
+export function toStateCounts(counts: Readonly<Record<MachineState, number>>): MachineStateCount[] {
   return MACHINE_STATES.map((state) => ({
     status: machineStatus(state),
     count: counts[state],

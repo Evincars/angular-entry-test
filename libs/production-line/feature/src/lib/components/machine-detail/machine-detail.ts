@@ -1,16 +1,8 @@
 import { Component, computed, input, output } from '@angular/core';
 import type { MachineState } from '@bagging-line/production-line/data-access';
-import {
-  UiButton,
-  UiCard,
-  UiIconButton,
-  UiIconLabel,
-} from '@bagging-line/shared/ui';
+import { UiButton, UiCard, UiIconButton, UiIconLabel } from '@bagging-line/shared/ui';
 import { formatDuration, formatTime } from '@bagging-line/shared/util';
-import {
-  MACHINE_STATE_OPTIONS,
-  type MachineView,
-} from '../../view-models/machine-view';
+import { MACHINE_STATE_OPTIONS, type MachineView } from '../../view-models/machine-view';
 
 /** Details of the selected machine with manual state switches. */
 @Component({

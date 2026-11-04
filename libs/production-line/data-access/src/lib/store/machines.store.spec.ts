@@ -1,14 +1,8 @@
 import { ApplicationRef, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
-import {
-  HttpTestingController,
-  provideHttpClientTesting,
-} from '@angular/common/http/testing';
-import {
-  PRODUCTION_LINE_CONFIG,
-  type ProductionLineConfig,
-} from './production-line.config';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { PRODUCTION_LINE_CONFIG, type ProductionLineConfig } from './production-line.config';
 import { MachinesStore } from './machines.store';
 
 const MACHINES_JSON = [
@@ -57,12 +51,7 @@ describe('MachinesStore', () => {
 
     expect(store.isLoading()).toBe(false);
     expect(store.loadError()).toBeNull();
-    expect(store.machines().map(({ id }) => id)).toEqual([
-      'scale',
-      'attacher',
-      'packer',
-      'closer',
-    ]);
+    expect(store.machines().map(({ id }) => id)).toEqual(['scale', 'attacher', 'packer', 'closer']);
     expect(store.stateCounts()).toEqual({ running: 2, warning: 1, alarm: 1 });
     expect(store.lineState()).toBe('alarm');
   });
@@ -107,15 +96,11 @@ describe('MachinesStore', () => {
     const { store } = await loaded();
 
     vi.advanceTimersByTime(config.simulationIntervalMs);
-    expect(store.machines().find(({ id }) => id === 'closer')?.state).toBe(
-      'alarm',
-    );
+    expect(store.machines().find(({ id }) => id === 'closer')?.state).toBe('alarm');
 
     store.setSimulationEnabled(false);
     store.resetMachine('closer');
     vi.advanceTimersByTime(config.simulationIntervalMs * 3);
-    expect(store.machines().find(({ id }) => id === 'closer')?.state).toBe(
-      'running',
-    );
+    expect(store.machines().find(({ id }) => id === 'closer')?.state).toBe('running');
   });
 });

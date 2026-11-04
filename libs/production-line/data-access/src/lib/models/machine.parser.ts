@@ -28,14 +28,10 @@ function parseMachine(raw: unknown, index: number, receivedAt: Date): Machine {
     throw new TypeError(`Machine #${index} needs a non-empty "id" and "name".`);
   }
   if (!isMachineType(type)) {
-    throw new TypeError(
-      `Machine "${id}" has an unknown type: ${String(type)}.`,
-    );
+    throw new TypeError(`Machine "${id}" has an unknown type: ${String(type)}.`);
   }
   if (!isMachineState(state)) {
-    throw new TypeError(
-      `Machine "${id}" has an unknown state: ${String(state)}.`,
-    );
+    throw new TypeError(`Machine "${id}" has an unknown state: ${String(state)}.`);
   }
 
   return {
@@ -44,8 +40,7 @@ function parseMachine(raw: unknown, index: number, receivedAt: Date): Machine {
     type,
     state,
     description: typeof description === 'string' ? description : '',
-    stateSince:
-      typeof stateSince === 'string' ? new Date(stateSince) : receivedAt,
+    stateSince: typeof stateSince === 'string' ? new Date(stateSince) : receivedAt,
   } satisfies Machine;
 }
 
@@ -53,16 +48,11 @@ function parseMachine(raw: unknown, index: number, receivedAt: Date): Machine {
  * Validates the untyped JSON payload and maps it to the domain model.
  * The array order defines the order of the machines on the line.
  */
-export function parseMachines(
-  raw: unknown,
-  receivedAt = new Date(),
-): Machine[] {
+export function parseMachines(raw: unknown, receivedAt = new Date()): Machine[] {
   if (!Array.isArray(raw)) {
     throw new TypeError('Machines payload must be an array.');
   }
-  const machines = raw.map((item: unknown, index) =>
-    parseMachine(item, index, receivedAt),
-  );
+  const machines = raw.map((item: unknown, index) => parseMachine(item, index, receivedAt));
 
   const ids = new Set(machines.map(({ id }) => id));
   if (ids.size !== machines.length) {

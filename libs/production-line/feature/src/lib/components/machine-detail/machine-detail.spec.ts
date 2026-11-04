@@ -35,14 +35,10 @@ describe('MachineDetail', () => {
   it('emits the chosen state and disables the current one', async () => {
     const { fixture, host } = await render();
     const emitted: MachineState[] = [];
-    fixture.componentInstance.stateChange.subscribe((state) =>
-      emitted.push(state),
-    );
+    fixture.componentInstance.stateChange.subscribe((state) => emitted.push(state));
 
     const buttons = Array.from(
-      host.querySelectorAll<HTMLButtonElement>(
-        '.machine-detail__actions button',
-      ),
+      host.querySelectorAll<HTMLButtonElement>('.machine-detail__actions button'),
     );
     const byLabel = (label: string) =>
       buttons.find((button) => button.textContent?.includes(label));

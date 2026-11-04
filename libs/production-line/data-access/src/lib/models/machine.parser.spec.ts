@@ -47,21 +47,9 @@ describe('parseMachines', () => {
   it.each([
     ['a non-array payload', { machines: [] }, /must be an array/],
     ['a non-object item', ['scale'], /is not an object/],
-    [
-      'a missing id',
-      [{ name: 'Scale', type: 'scale', state: 'running' }],
-      /non-empty "id"/,
-    ],
-    [
-      'an unknown type',
-      [{ id: 'x', name: 'X', type: 'robot', state: 'running' }],
-      /unknown type/,
-    ],
-    [
-      'an unknown state',
-      [{ id: 'x', name: 'X', type: 'scale', state: 'idle' }],
-      /unknown state/,
-    ],
+    ['a missing id', [{ name: 'Scale', type: 'scale', state: 'running' }], /non-empty "id"/],
+    ['an unknown type', [{ id: 'x', name: 'X', type: 'robot', state: 'running' }], /unknown type/],
+    ['an unknown state', [{ id: 'x', name: 'X', type: 'scale', state: 'idle' }], /unknown state/],
     [
       'duplicate ids',
       [

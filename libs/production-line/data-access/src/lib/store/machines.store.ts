@@ -11,11 +11,7 @@ import {
   withProps,
   withState,
 } from '@ngrx/signals';
-import {
-  MACHINE_STATE_SEVERITY,
-  type Machine,
-  type MachineState,
-} from '../models/machine.model';
+import { MACHINE_STATE_SEVERITY, type Machine, type MachineState } from '../models/machine.model';
 import { parseMachines } from '../models/machine.parser';
 import { simulateStep } from '../simulation/machine-simulation';
 import { PRODUCTION_LINE_CONFIG } from './production-line.config';
@@ -78,9 +74,7 @@ export const MachinesStore = signalStore(
     lineState: computed(() =>
       machines().reduce<MachineState>(
         (worst, { state }) =>
-          MACHINE_STATE_SEVERITY[state] > MACHINE_STATE_SEVERITY[worst]
-            ? state
-            : worst,
+          MACHINE_STATE_SEVERITY[state] > MACHINE_STATE_SEVERITY[worst] ? state : worst,
         'running',
       ),
     ),

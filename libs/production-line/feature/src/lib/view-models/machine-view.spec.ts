@@ -1,10 +1,5 @@
 import type { Machine } from '@bagging-line/production-line/data-access';
-import {
-  machineStatus,
-  toMachineView,
-  toNavItem,
-  toStateCounts,
-} from './machine-view';
+import { machineStatus, toMachineView, toNavItem, toStateCounts } from './machine-view';
 
 describe('machine view mappers', () => {
   const machine = {
@@ -50,10 +45,7 @@ describe('machine view mappers', () => {
   });
 
   it('maps a view model to a navigation item', () => {
-    const view = toMachineView({ ...machine, state: 'running' }, [
-      'machines',
-      'attacher',
-    ]);
+    const view = toMachineView({ ...machine, state: 'running' }, ['machines', 'attacher']);
 
     expect(toNavItem(view)).toEqual({
       id: 'attacher',

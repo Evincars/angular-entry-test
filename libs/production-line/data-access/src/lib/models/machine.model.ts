@@ -12,11 +12,7 @@ export interface Machine {
   readonly description: string;
 }
 
-export const MACHINE_STATES: readonly MachineState[] = [
-  'running',
-  'warning',
-  'alarm',
-];
+export const MACHINE_STATES: readonly MachineState[] = ['running', 'warning', 'alarm'];
 
 export const MACHINE_TYPES: readonly MachineType[] = [
   'scale',

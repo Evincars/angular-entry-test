@@ -14,14 +14,7 @@ import {
  */
 @Component({
   selector: 'ui-card',
-  imports: [
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardSubtitle,
-    MatCardContent,
-    MatCardActions,
-  ],
+  imports: [MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions],
   template: `
     <mat-card appearance="outlined">
       <mat-card-header>

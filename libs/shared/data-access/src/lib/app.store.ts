@@ -1,11 +1,5 @@
 import { computed } from '@angular/core';
-import {
-  patchState,
-  signalStore,
-  withComputed,
-  withHooks,
-  withState,
-} from '@ngrx/signals';
+import { patchState, signalStore, withComputed, withHooks, withState } from '@ngrx/signals';
 
 export interface CurrentUser {
   readonly displayName: string;
@@ -39,10 +33,7 @@ export const AppStore = signalStore(
     return {
       onInit() {
         patchState(store, { now: new Date() });
-        timer = setInterval(
-          () => patchState(store, { now: new Date() }),
-          CLOCK_TICK_MS,
-        );
+        timer = setInterval(() => patchState(store, { now: new Date() }), CLOCK_TICK_MS);
       },
       onDestroy() {
         clearInterval(timer);

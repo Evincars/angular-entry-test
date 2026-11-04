@@ -2,9 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { UiIcon } from './icon';
 
 describe('UiIcon', () => {
-  async function render(
-    inputs: Partial<{ name: string; size: string; label: string }>,
-  ) {
+  async function render(inputs: Partial<{ name: string; size: string; label: string }>) {
     const fixture = TestBed.createComponent(UiIcon);
     for (const [key, value] of Object.entries(inputs)) {
       fixture.componentRef.setInput(key, value);

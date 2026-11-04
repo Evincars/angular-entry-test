@@ -4,11 +4,7 @@
   [attr.aria-current]="selected() ? 'true' : null"
 >
   <mat-card class="ui-status-tile__card" appearance="filled" matRipple>
-    <ui-icon
-      class="ui-status-tile__status"
-      [name]="status().icon"
-      [label]="status().label"
-    />
+    <ui-icon class="ui-status-tile__status" [name]="status().icon" [label]="status().label" />
     <ui-icon class="ui-status-tile__icon" size="xl" [name]="icon()" />
     <span class="ui-status-tile__label">{{ label() }}</span>
   </mat-card>

@@ -40,8 +40,6 @@ export function simulateStep(
     return machines;
   }
   return machines.map((machine) =>
-    machine.id === target.id
-      ? { ...machine, state: nextState, stateSince: now }
-      : machine,
+    machine.id === target.id ? { ...machine, state: nextState, stateSince: now } : machine,
   );
 }
