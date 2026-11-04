@@ -36,6 +36,20 @@ import { MatToolbar } from '@angular/material/toolbar';
       gap: 32px;
       min-width: 0;
     }
+
+    @media (max-width: 600px) {
+      .ui-toolbar {
+        --mat-toolbar-mobile-height: auto;
+        flex-wrap: wrap;
+        row-gap: 4px;
+        min-height: 56px;
+        padding-block: 8px;
+      }
+
+      .ui-toolbar__actions {
+        gap: 16px;
+      }
+    }
   `,
 })
 export class UiToolbar {}

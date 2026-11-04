@@ -10,14 +10,7 @@ import type { UiNavItem } from '../ui.types';
  */
 @Component({
   selector: 'ui-nav-tabs',
-  imports: [
-    MatTabNav,
-    MatTabLink,
-    MatTabNavPanel,
-    RouterLink,
-    RouterLinkActive,
-    UiIcon,
-  ],
+  imports: [MatTabNav, MatTabLink, MatTabNavPanel, RouterLink, RouterLinkActive, UiIcon],
   templateUrl: './nav-tabs.html',
   styleUrl: './nav-tabs.scss',
 })
