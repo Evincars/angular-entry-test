@@ -8,7 +8,9 @@
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/production-line",
@@ -21,7 +23,10 @@
             "input": "apps/production-line/public"
           }
         ],
-        "styles": ["apps/production-line/src/styles.scss"]
+        "styles": [
+          "node_modules/material-symbols/outlined.css",
+          "apps/production-line/src/styles.scss"
+        ]
       },
       "configurations": {
         "production": {
@@ -67,7 +72,9 @@
       "readyWhen": {
         "signal": true
       },
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "production-line:build",
