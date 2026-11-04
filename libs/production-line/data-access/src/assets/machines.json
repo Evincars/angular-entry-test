@@ -1,0 +1,30 @@
+[
+  {
+    "id": "scale",
+    "name": "Scale",
+    "type": "scale",
+    "state": "running",
+    "description": "Weighs the exact amount of product (rice, sugar, wheat) for every bag."
+  },
+  {
+    "id": "attacher",
+    "name": "Attacher",
+    "type": "bag-attacher",
+    "state": "alarm",
+    "description": "Picks an empty bag from the magazine and attaches it to the filling spout."
+  },
+  {
+    "id": "packer",
+    "name": "Packer",
+    "type": "packer",
+    "state": "running",
+    "description": "Fills the attached bag with the weighed product and compacts it."
+  },
+  {
+    "id": "closer",
+    "name": "Closer",
+    "type": "bag-closer",
+    "state": "warning",
+    "description": "Seals the filled bag and releases it to the outfeed conveyor."
+  }
+]

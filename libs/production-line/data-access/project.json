@@ -1,0 +1,10 @@
+{
+  "name": "production-line-data-access",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/production-line/data-access/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["type:data-access", "scope:production-line"],
+  "// targets": "to see all targets run: nx show project production-line-data-access --web",
+  "targets": {}
+}
