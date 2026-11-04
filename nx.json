@@ -44,6 +44,7 @@
     },
     "@nx/angular:library": {
       "linter": "eslint",
+      "style": "scss",
       "unitTestRunner": "vitest-analog"
     },
     "@nx/angular:component": {
