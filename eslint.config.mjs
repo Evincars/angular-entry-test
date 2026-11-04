@@ -16,7 +16,8 @@ export default [
           enforceBuildableLibDependency: true,
           allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$'],
           depConstraints: [
-            // Layers (type:*)
+            // Layers (type:*) – classical Nx layering, every layer may use the ones below it:
+            // feature -> data-access / ui -> util
             {
               sourceTag: 'type:app',
               onlyDependOnLibsWithTags: [
@@ -28,21 +29,26 @@ export default [
             },
             {
               sourceTag: 'type:feature',
-              onlyDependOnLibsWithTags: ['type:data-access', 'type:ui', 'type:util'],
+              onlyDependOnLibsWithTags: [
+                'type:feature',
+                'type:data-access',
+                'type:ui',
+                'type:util',
+              ],
             },
             {
               sourceTag: 'type:data-access',
-              onlyDependOnLibsWithTags: ['type:data-access'],
+              onlyDependOnLibsWithTags: ['type:data-access', 'type:util'],
             },
             {
               sourceTag: 'type:ui',
-              onlyDependOnLibsWithTags: ['type:ui'],
+              onlyDependOnLibsWithTags: ['type:ui', 'type:util'],
             },
             {
               sourceTag: 'type:util',
               onlyDependOnLibsWithTags: ['type:util'],
             },
-            // Domains (scope:*)
+            // Domains (scope:*) – vertical slices may only use themselves and the shared kernel.
             {
               sourceTag: 'scope:shared',
               onlyDependOnLibsWithTags: ['scope:shared'],
