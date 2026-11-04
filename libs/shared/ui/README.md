@@ -19,6 +19,7 @@ directly; all of them only talk through signal inputs and outputs.
 | `ui-button`         | `matButton`                   |
 | `ui-icon-button`    | `matIconButton`               |
 | `ui-slide-toggle`   | `mat-slide-toggle`            |
+| `ui-progress-bar`   | `mat-progress-bar`            |
 
 Design tokens (`--ui-*` CSS custom properties) live in
 `src/styles/_tokens.scss` and are included once by the application.

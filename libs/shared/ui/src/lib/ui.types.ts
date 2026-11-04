@@ -1,3 +1,4 @@
+import type { UrlTree } from '@angular/router';
 import type { MaterialSymbol } from 'material-symbols';
 
 /** Semantic color of a status-aware UI element. */
@@ -8,7 +9,7 @@ export type UiIconSize = 'sm' | 'md' | 'lg' | 'xl';
 export type UiButtonAppearance = 'text' | 'filled' | 'outlined' | 'tonal';
 
 /** Anything the Angular router accepts as a `routerLink`. */
-export type UiLink = string | readonly (string | number)[];
+export type UiLink = string | readonly (string | number)[] | UrlTree;
 
 export interface UiStatus {
   readonly tone: UiTone;

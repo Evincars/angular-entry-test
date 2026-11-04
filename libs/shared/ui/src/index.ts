@@ -10,3 +10,4 @@ export * from './lib/card/card';
 export * from './lib/button/button';
 export * from './lib/button/icon-button';
 export * from './lib/slide-toggle/slide-toggle';
+export * from './lib/progress-bar/progress-bar';
