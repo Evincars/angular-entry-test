@@ -2,7 +2,10 @@ import { Component, input } from '@angular/core';
 import type { MaterialSymbol } from 'material-symbols';
 import { UiIcon } from '../icon/icon';
 
-/** Inline icon followed by projected text, e.g. a clock or a user name. */
+/**
+ * Inline icon followed by projected text, e.g. a clock or a user name.
+ * The icon color can be changed via `--ui-icon-label-icon-color`.
+ */
 @Component({
   selector: 'ui-icon-label',
   imports: [UiIcon],
@@ -17,6 +20,10 @@ import { UiIcon } from '../icon/icon';
       gap: 6px;
       font: var(--mat-sys-label-large);
       white-space: nowrap;
+    }
+
+    ui-icon {
+      color: var(--ui-icon-label-icon-color, inherit);
     }
   `,
 })

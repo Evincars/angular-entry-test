@@ -5,7 +5,10 @@ import { MatProgressBar } from '@angular/material/progress-bar';
 @Component({
   selector: 'ui-progress-bar',
   imports: [MatProgressBar],
-  template: `<mat-progress-bar mode="indeterminate" [attr.aria-label]="label()" />`,
+  template: `<mat-progress-bar
+    mode="indeterminate"
+    [attr.aria-label]="label()"
+  />`,
   styles: `
     :host {
       display: block;
